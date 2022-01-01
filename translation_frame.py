@@ -199,8 +199,10 @@ class TranslationFrame(Frame):
         try:
             self.t = self.trans.translate(self.from_text, src=self.from_src, dest=self.to_dest)
         except ValueError:
-            pass
-            # add a message box that this language are not supported yet
+            messagebox.showinfo(title="Attention",
+                                message=f"{self.from_src} Language is not supported yet.")
+        except TypeError:
+            messagebox.showinfo(title="Attention", message="Please fill from box with the words you want to translate!!")
         else:
             self.to_text_field.insert("1.0", self.t.text)
 
