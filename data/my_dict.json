@@ -1,0 +1,20 @@
+{
+    "0": {
+        "source": "English",
+        "destination": "Dutch",
+        "original": "cat\n",
+        "translated": "kat"
+    },
+    "1": {
+        "source": "English",
+        "destination": "Esperanto",
+        "original": "water\n",
+        "translated": "akvo"
+    },
+    "2": {
+        "source": "Arabic",
+        "destination": "Esperanto",
+        "original": "\u0643\u064a\u0641 \u062d\u0627\u0644\u0643\n",
+        "translated": "Kiel vi fartas"
+    }
+}
