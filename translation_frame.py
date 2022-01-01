@@ -93,17 +93,13 @@ class TranslationFrame(Frame):
                                     padx=5, highlightthickness=5)
 
         self.from_text_field.config(highlightcolor=LIGHT_PINK, highlightbackground=LIGHT_PINK)
-        # right text field tags
-        self.from_text_field.tag_configure("left", justify='left')
-        self.from_text_field.tag_configure("center", justify='center')
-        self.from_text_field.tag_configure("right", justify='right')
 
+        # left text Fields
         self.to_text_field = Text(self, bg=LIGHT_PINK, fg=ORANGE_COLOR, font=TEXT_FIELD, width=27, height=13,
                                   relief="sunken",
                                   bd=5, pady=5,
                                   padx=5, highlightthickness=5)
         self.to_text_field.config(highlightcolor=LIGHT_PINK, highlightbackground=LIGHT_PINK)
-        # left text field tags
 
         # -----------------------------------------------------------------
         # Set text to center to left and to right by adding three button text_left , text_center and text_right

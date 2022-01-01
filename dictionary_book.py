@@ -3,6 +3,7 @@ from tkinter import ttk
 import json
 import os
 from tkinter import messagebox
+import translation_frame as tf
 
 # All Sources from colors and Fonts
 WHITE_COLOR = "#eaeaea"
@@ -10,6 +11,7 @@ LIGHT_BLUE_COLOR = "#3fc1c9"
 TEXT_FORGROUND_COLOR = "#364f6b"
 ORANGE_COLOR = "#fe5b24"
 LIGHT_PINK = "#ffe5de"
+VERY_LIGHT_PINK = "#ffe4dd"
 LIGHT_GREEN = "#18a795"
 FONT_HEADING = ("Varela Round", 15, "bold")
 FONT_PARAGRAPH = ("Varela Round", 13, "bold")
@@ -20,6 +22,7 @@ TEXT_FIELD = ('any 20', 15, 'bold')
 class DictionaryBook(Frame):
     def __init__(self, root):
         super().__init__()
+        self.root = root
         self.config(bg=WHITE_COLOR, width=1000, height=800)
         # set all photos that I am going to use
         self.canvas_frame_photo = PhotoImage(file="img/canvas_bg.png")
@@ -52,8 +55,45 @@ class DictionaryBook(Frame):
         self.tree_view.heading('original text', text='Original text', anchor=CENTER)
         self.tree_view.heading('translated text', text='Translated text', anchor=CENTER)
         # show treeview widget on canvas
-        self.show_tree_view = self.canvas.create_window(500, 170, window=self.tree_view)
+        self.show_tree_view = self.canvas.create_window(500, 300, window=self.tree_view)
         self.load_data_to_treeview()
+        # Set text field to display the original text
+        # right text Fields
+        self.from_text_field = Text(self, bg=LIGHT_PINK, fg=ORANGE_COLOR, font=TEXT_FIELD, width=27, height=8,
+                                    relief="sunken", bd=5, pady=5,
+                                    padx=5, highlightthickness=5)
+
+        self.from_text_field.config(highlightcolor=LIGHT_PINK, highlightbackground=LIGHT_PINK)
+
+        # left text Fields
+        self.to_text_field = Text(self, bg=LIGHT_PINK, fg=ORANGE_COLOR, font=TEXT_FIELD, width=27, height=8,
+                                  relief="sunken",
+                                  bd=5, pady=5,
+                                  padx=5, highlightthickness=5)
+        self.to_text_field.config(highlightcolor=LIGHT_PINK, highlightbackground=LIGHT_PINK)
+        # set show more information button
+        self.more_label = Label(self, text="Show full", font=FONT_HEADING, fg=TEXT_FORGROUND_COLOR,
+                                background="white")
+        self.more_button = Button(self, image=self.show_details_photo, bg="white", highlightthickness=0,
+                                  activebackground="white",
+                                  bd=0, cursor="hand2")
+        # set delete button
+        self.delete_label = Label(self, text="Delete", font=FONT_HEADING, fg=TEXT_FORGROUND_COLOR,
+                                  background="white")
+        self.delete_button = Button(self, image=self.delete_photo, bg="white", highlightthickness=0,
+                                    activebackground="white",
+                                    bd=0, cursor="hand2")
+        # set back button
+        self.previous_button = Button(self, image=self.previous_photo, bg=VERY_LIGHT_PINK, highlightthickness=0,
+                                      activebackground=VERY_LIGHT_PINK,
+                                      bd=0, cursor="hand2",width=50, height=60, command=self.return_home)
+        self.show_previous_button = self.canvas.create_window(0, 350, anchor='nw', window=self.previous_button)
+        self.show_delete_button = self.canvas.create_window(460, 700, anchor='nw', window=self.delete_button)
+        self.show_delete_label = self.canvas.create_window(455, 655, anchor='nw', window=self.delete_label)
+        self.show_more_button = self.canvas.create_window(445, 540, anchor='nw', window=self.more_button)
+        self.show_more_label = self.canvas.create_window(445, 500, anchor='nw', window=self.more_label)
+        self.show_to_text_field = self.canvas.create_window(590, 500, anchor="nw", window=self.to_text_field)
+        self.show_from_text_field = self.canvas.create_window(84, 500, anchor="nw", window=self.from_text_field)
         self.canvas.pack(fill="both", expand=True)
         self.pack(fill="both", expand=True)
         # Methods section
@@ -64,8 +104,15 @@ class DictionaryBook(Frame):
                 data = json.load(data_file)
                 for i in data:
                     original_text = data[i]['original'].split()
-                    translated_text = data[i]['original'].split()
+                    translated_text = data[i]['translated'].split()
                     first_original = ' '.join(original_text[0:3])
                     first_translated = ' '.join(translated_text[0:3])
-                    self.tree_view.insert(parent='', index='end', iid=i, values=(data[i]["source"], data[i]["destination"],
-                                                                                 first_original, first_translated))
+                    self.tree_view.insert(parent='', index='end', iid=i,
+                                          values=(data[i]["source"], data[i]["destination"],
+                                                  first_original, first_translated))
+
+    def return_home(self):
+        self.destroy()
+        tf.TranslationFrame(self.root)
+
+
