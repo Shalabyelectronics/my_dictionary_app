@@ -64,7 +64,7 @@ class DictionaryBook(Frame):
         # right text Fields
         self.from_text_field = Text(self, bg=LIGHT_PINK, fg=ORANGE_COLOR, font=TEXT_FIELD, width=27, height=8,
                                     relief="sunken", bd=5, pady=5,
-                                    padx=5, highlightthickness=5)
+                                    padx=5, highlightthickness=5, wrap=WORD)
 
         self.from_text_field.config(highlightcolor=LIGHT_PINK, highlightbackground=LIGHT_PINK)
 
@@ -72,14 +72,14 @@ class DictionaryBook(Frame):
         self.to_text_field = Text(self, bg=LIGHT_PINK, fg=ORANGE_COLOR, font=TEXT_FIELD, width=27, height=8,
                                   relief="sunken",
                                   bd=5, pady=5,
-                                  padx=5, highlightthickness=5)
+                                  padx=5, highlightthickness=5, wrap=WORD)
         self.to_text_field.config(highlightcolor=LIGHT_PINK, highlightbackground=LIGHT_PINK)
         # set show more information button
         self.more_label = Label(self, text="Show full", font=FONT_HEADING, fg=TEXT_FORGROUND_COLOR,
                                 background="white")
         self.more_button = Button(self, image=self.show_details_photo, bg="white", highlightthickness=0,
                                   activebackground="white",
-                                  bd=0, cursor="hand2")
+                                  bd=0, cursor="hand2", command=self.show_full_text)
         # set delete button
         self.delete_label = Label(self, text="Delete", font=FONT_HEADING, fg=TEXT_FORGROUND_COLOR,
                                   background="white")
@@ -179,5 +179,23 @@ class DictionaryBook(Frame):
                     self.to_text_field.tag_remove(i, '1.0', 'end')
         else:
             self.to_text_field.tag_add(tag, '1.0', 'end')
+
+    def show_full_text(self):
+        try:
+            self.row_selected_id = self.tree_view.selection()[0]
+        except IndexError:
+            messagebox.showinfo(title="attention", message="Please select any row from the table first.")
+        else:
+            with open('data/my_dict.json', 'r') as data_file:
+                data = json.load(data_file)
+                original_text = data[self.row_selected_id]['original']
+                translated_text = data[self.row_selected_id]['translated']
+                self.from_text_field.delete('1.0', 'end')
+                self.to_text_field.delete('1.0', 'end')
+                self.from_text_field.insert('1.0', original_text)
+                self.to_text_field.insert('1.0', translated_text)
+
+
+
 
 

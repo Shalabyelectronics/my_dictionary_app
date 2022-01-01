@@ -90,7 +90,7 @@ class TranslationFrame(Frame):
         # right text Fields
         self.from_text_field = Text(self, bg=LIGHT_PINK, fg=ORANGE_COLOR, font=TEXT_FIELD, width=27, height=13,
                                     relief="sunken", bd=5, pady=5,
-                                    padx=5, highlightthickness=5)
+                                    padx=5, highlightthickness=5, wrap=WORD)
 
         self.from_text_field.config(highlightcolor=LIGHT_PINK, highlightbackground=LIGHT_PINK)
 
@@ -98,7 +98,7 @@ class TranslationFrame(Frame):
         self.to_text_field = Text(self, bg=LIGHT_PINK, fg=ORANGE_COLOR, font=TEXT_FIELD, width=27, height=13,
                                   relief="sunken",
                                   bd=5, pady=5,
-                                  padx=5, highlightthickness=5)
+                                  padx=5, highlightthickness=5, wrap=WORD)
         self.to_text_field.config(highlightcolor=LIGHT_PINK, highlightbackground=LIGHT_PINK)
 
         # -----------------------------------------------------------------
