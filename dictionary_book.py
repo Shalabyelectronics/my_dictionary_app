@@ -30,6 +30,9 @@ class DictionaryBook(Frame):
         self.delete_photo = PhotoImage(file="img/exit_window.png")
         self.show_details_photo = PhotoImage(file="img/book_b.png")
         self.previous_photo = PhotoImage(file="img/previous_b.png")
+        self.align_right_img = PhotoImage(file="img/align_right.png")
+        self.align_left_img = PhotoImage(file="img/align_left.png")
+        self.align_center_img = PhotoImage(file="img/align_center.png")
         # Design your frame
         self.canvas = Canvas(self, width=750, height=550, bg="white")
         self.back_ground_app = self.canvas.create_image(0, 0, image=self.canvas_frame_photo, anchor="nw")
@@ -87,6 +90,40 @@ class DictionaryBook(Frame):
         self.previous_button = Button(self, image=self.previous_photo, bg=VERY_LIGHT_PINK, highlightthickness=0,
                                       activebackground=VERY_LIGHT_PINK,
                                       bd=0, cursor="hand2",width=50, height=60, command=self.return_home)
+        # set alignment buttons
+        # Left side
+        self.align_left_button_l = Button(self, image=self.align_left_img, bg="white", highlightthickness=0,
+                                          activebackground="white",
+                                          bd=0, cursor="hand2", command=lambda: self.align_from_text('left'))
+        self.align_center_button_l = Button(self, image=self.align_center_img, bg="white", highlightthickness=0,
+                                            activebackground="white",
+                                            bd=0, cursor="hand2", command=lambda: self.align_from_text('center'))
+        self.align_right_button_l = Button(self, image=self.align_right_img, bg="white", highlightthickness=0,
+                                           activebackground="white",
+                                           bd=0, cursor="hand2", command=lambda: self.align_from_text('right'))
+
+        # Right Side
+        self.align_left_button_r = Button(self, image=self.align_left_img, bg="white", highlightthickness=0,
+                                          activebackground="white",
+                                          bd=0, cursor="hand2", command=lambda: self.align_to_text('left'))
+        self.align_center_button_r = Button(self, image=self.align_center_img, bg="white", highlightthickness=0,
+                                            activebackground="white",
+                                            bd=0, cursor="hand2", command=lambda: self.align_to_text('center'))
+        self.align_right_button_r = Button(self, image=self.align_right_img, bg="white", highlightthickness=0,
+                                           activebackground="white",
+                                           bd=0, cursor="hand2", command=lambda: self.align_to_text('right'))
+
+        self.show_align_left_button_l = self.canvas.create_window(85, 730, anchor="nw", window=self.align_left_button_l)
+        self.show_align_center_button_l = self.canvas.create_window(225, 730, anchor="nw",
+                                                                    window=self.align_center_button_l)
+        self.show_align_right_button_l = self.canvas.create_window(367, 730, anchor="nw",
+                                                                   window=self.align_right_button_l)
+        self.show_align_left_button_r = self.canvas.create_window(590, 730, anchor="nw",
+                                                                  window=self.align_left_button_r)
+        self.show_align_center_button_r = self.canvas.create_window(740, 730, anchor="nw",
+                                                                    window=self.align_center_button_r)
+        self.show_align_right_button_r = self.canvas.create_window(876, 730, anchor="nw",
+                                                                   window=self.align_right_button_r)
         self.show_previous_button = self.canvas.create_window(0, 350, anchor='nw', window=self.previous_button)
         self.show_delete_button = self.canvas.create_window(460, 700, anchor='nw', window=self.delete_button)
         self.show_delete_label = self.canvas.create_window(455, 655, anchor='nw', window=self.delete_label)
@@ -114,5 +151,33 @@ class DictionaryBook(Frame):
     def return_home(self):
         self.destroy()
         tf.TranslationFrame(self.root)
+
+    def align_from_text(self, tag):
+        current_tags = self.from_text_field.tag_names('1.0')
+        self.from_text_field.tag_configure(tag, justify=tag)
+        if len(current_tags) > 0:
+            if tag not in current_tags:
+                self.from_text_field.tag_add(tag, '1.0', 'end')
+                for i in current_tags:
+                    self.from_text_field.tag_remove(i, '1.0', 'end')
+            else:
+                for i in current_tags:
+                    self.from_text_field.tag_remove(i, '1.0', 'end')
+        else:
+            self.from_text_field.tag_add(tag, '1.0', 'end')
+
+    def align_to_text(self, tag):
+        current_tags = self.to_text_field.tag_names('1.0')
+        self.to_text_field.tag_configure(tag, justify=tag)
+        if len(current_tags) > 0:
+            if tag not in current_tags:
+                self.to_text_field.tag_add(tag, '1.0', 'end')
+                for i in current_tags:
+                    self.to_text_field.tag_remove(i, '1.0', 'end')
+            else:
+                for i in current_tags:
+                    self.to_text_field.tag_remove(i, '1.0', 'end')
+        else:
+            self.to_text_field.tag_add(tag, '1.0', 'end')
 
 
