@@ -28,6 +28,7 @@ class TranslationFrame(Frame):
     def __init__(self, root):
         super().__init__()
         # My self window set up
+        self.root = root
         self.t = None
         self.trans = None
         self.to_dest = None
@@ -49,7 +50,7 @@ class TranslationFrame(Frame):
         self.align_left_img = PhotoImage(file="img/align_left.png")
         self.align_center_img = PhotoImage(file="img/align_center.png")
         # _____________________________________________________________
-        # Design your widgets
+        # Design your frame
         self.canvas = Canvas(self, width=750, height=550, bg="white")
         self.back_ground_app = self.canvas.create_image(0, 0, image=self.canvas_frame_photo, anchor="nw")
         self.from_image_canvas = self.canvas.create_image(200, 100, image=self.from_photo)
@@ -280,7 +281,7 @@ class TranslationFrame(Frame):
 
     def show_my_dictionary_treeview(self):
         self.destroy()
-        # dict_book.Dictionarybook(self)
+        dict_book.DictionaryBook(self.root)
 
 
 #
