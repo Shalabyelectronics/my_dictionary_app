@@ -195,6 +195,24 @@ class DictionaryBook(Frame):
                 self.from_text_field.insert('1.0', original_text)
                 self.to_text_field.insert('1.0', translated_text)
 
+    def delete_data(self):
+        try:
+            self.row_selected_id = self.tree_view.selection()[0]
+        except IndexError:
+            messagebox.showinfo(title="attention", message="Please select any row from the table first.")
+        else:
+            with open("data/my_dict.json", 'r') as data_file:
+                data = json.load(data_file)
+                del data[self.row_selected_id]
+                data.update(data)
+            with open("data/my_dict.json", 'w') as data_file:
+                json.dump(data, data_file, indent=4)
+
+            self.from_text_field.delete('1.0', 'end')
+            self.to_text_field.delete('1.0', 'end')
+
+
+
 
 
 
