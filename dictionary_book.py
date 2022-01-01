@@ -85,7 +85,7 @@ class DictionaryBook(Frame):
                                   background="white")
         self.delete_button = Button(self, image=self.delete_photo, bg="white", highlightthickness=0,
                                     activebackground="white",
-                                    bd=0, cursor="hand2")
+                                    bd=0, cursor="hand2", command=self.delete_data)
         # set back button
         self.previous_button = Button(self, image=self.previous_photo, bg=VERY_LIGHT_PINK, highlightthickness=0,
                                       activebackground=VERY_LIGHT_PINK,
@@ -196,20 +196,23 @@ class DictionaryBook(Frame):
                 self.to_text_field.insert('1.0', translated_text)
 
     def delete_data(self):
-        try:
-            self.row_selected_id = self.tree_view.selection()[0]
-        except IndexError:
-            messagebox.showinfo(title="attention", message="Please select any row from the table first.")
-        else:
-            with open("data/my_dict.json", 'r') as data_file:
-                data = json.load(data_file)
-                del data[self.row_selected_id]
-                data.update(data)
-            with open("data/my_dict.json", 'w') as data_file:
-                json.dump(data, data_file, indent=4)
+        confirmation = messagebox.askyesno(title="Deletion confirmation", message="Are you sure you want to delete this row?")
+        if confirmation:
+            try:
+                self.row_selected_id = self.tree_view.selection()[0]
+            except IndexError:
+                messagebox.showinfo(title="attention", message="Please select any row from the table first.")
+            else:
+                with open("data/my_dict.json", 'r') as data_file:
+                    data = json.load(data_file)
+                    del data[self.row_selected_id]
+                    data.update(data)
+                with open("data/my_dict.json", 'w') as data_file:
+                    json.dump(data, data_file, indent=4)
 
-            self.from_text_field.delete('1.0', 'end')
-            self.to_text_field.delete('1.0', 'end')
+                self.from_text_field.delete('1.0', 'end')
+                self.to_text_field.delete('1.0', 'end')
+                self.tree_view.delete(self.row_selected_id)
 
 
 

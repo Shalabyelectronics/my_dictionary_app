@@ -4,6 +4,7 @@ from googletrans import Translator
 from tkinter import *
 from tkinter import PhotoImage
 import dictionary_book as dict_book
+from tkinter import messagebox
 
 # All Sources from colors and Fonts
 WHITE_COLOR = "#eaeaea"
@@ -225,11 +226,9 @@ class TranslationFrame(Frame):
                     with open('data/my_dict.json', 'w') as my_dictionary_file:
                         json.dump(self.data_dumps(0), my_dictionary_file, indent=4)
         except AttributeError:
-            # Add a message box her
-            print("is not ready")
-            pass
+            messagebox.showinfo(title="Attention", message="Please do not leave from text empty and translate first")
         else:
-            print("everything is ready")
+            messagebox.showinfo(title="Attention", message="congratulation your new translation was saved to your dictionary book.")
 
     def delete_text_fields(self):
         self.from_text_field.delete('1.0', 'end')
